@@ -8,35 +8,50 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Bragi LED-inspired color system */
+    --background: 0 0% 4%;
+    --foreground: 0 0% 100%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Electric Blue Primary */
+    --primary: 213 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 213 100% 70%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Purple Secondary */
+    --secondary: 265 100% 62%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-glow: 265 100% 80%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 70%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 265 100% 62%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 213 100% 50%;
 
-    --radius: 0.5rem;
+    /* LED-inspired gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(213 100% 50%), hsl(265 100% 62%));
+    --gradient-glow: linear-gradient(135deg, hsl(213 100% 50% / 0.8), hsl(265 100% 62% / 0.8));
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 4%), hsl(213 100% 8%), hsl(0 0% 4%));
+
+    /* LED glow effects */
+    --shadow-primary: 0 0 20px hsl(213 100% 50% / 0.5);
+    --shadow-secondary: 0 0 20px hsl(265 100% 62% / 0.5);
+    --shadow-intense: 0 0 40px hsl(213 100% 50% / 0.8), 0 0 80px hsl(265 100% 62% / 0.4);
+
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +115,90 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-x-hidden;
+  }
+}
+
+@layer components {
+  /* LED glow animations */
+  @keyframes pulse-glow {
+    0%, 100% { 
+      box-shadow: var(--shadow-primary);
+      transform: scale(1);
+    }
+    50% { 
+      box-shadow: var(--shadow-intense);
+      transform: scale(1.02);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+  }
+
+  /* Hero button with LED glow */
+  .btn-hero {
+    @apply relative px-8 py-4 bg-gradient-to-r from-primary to-secondary text-primary-foreground font-semibold rounded-lg overflow-hidden transition-all duration-300;
+    background: var(--gradient-primary);
+    box-shadow: var(--shadow-primary);
+  }
+
+  .btn-hero:hover {
+    box-shadow: var(--shadow-intense);
+    transform: scale(1.05);
+  }
+
+  .btn-hero::before {
+    @apply absolute inset-0 bg-gradient-to-r from-primary-glow to-secondary-glow opacity-0 transition-opacity duration-300;
+    content: '';
+    background: var(--gradient-glow);
+  }
+
+  .btn-hero:hover::before {
+    @apply opacity-20;
+  }
+
+  /* Glow card effect */
+  .glow-card {
+    @apply relative bg-card border border-border rounded-lg overflow-hidden;
+    transition: all 0.3s ease;
+  }
+
+  .glow-card::before {
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    content: '';
+    background: var(--gradient-glow);
+  }
+
+  .glow-card:hover::before {
+    @apply opacity-10;
+  }
+
+  .glow-card:hover {
+    box-shadow: var(--shadow-primary);
+    transform: translateY(-4px);
+  }
+
+  /* LED strip animation */
+  .led-strip {
+    @apply w-full h-1 rounded-full;
+    background: var(--gradient-primary);
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+
+  /* Floating animation */
+  .float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Pulse glow animation */
+  .pulse-glow {
+    animation: pulse-glow 3s ease-in-out infinite;
   }
 }
