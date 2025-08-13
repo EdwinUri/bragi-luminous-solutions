@@ -155,7 +155,7 @@ All colors MUST be HSL.
   }
 
   .btn-hero::before {
-    @apply absolute inset-0 bg-gradient-to-r from-primary-glow to-secondary-glow opacity-0 transition-opacity duration-300;
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
     content: '';
     background: var(--gradient-glow);
   }
