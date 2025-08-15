@@ -8,48 +8,47 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Bragi LED-inspired color system */
-    --background: 0 0% 4%;
-    --foreground: 0 0% 100%;
+    /* Bragi brand color system - Exact HEX colors as HSL */
+    --background: 0 0% 98%; /* Light gray background */
+    --foreground: 0 0% 10%; /* Dark text */
 
-    --card: 0 0% 8%;
-    --card-foreground: 0 0% 100%;
+    --card: 0 0% 100%; /* White cards */
+    --card-foreground: 0 0% 10%;
 
-    --popover: 0 0% 8%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
 
-    /* Electric Blue Primary */
-    --primary: 213 100% 50%;
+    /* #00059B - Deep blue primary */
+    --primary: 239 100% 30%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 213 100% 70%;
 
-    /* Purple Secondary */
-    --secondary: 265 100% 62%;
-    --secondary-foreground: 0 0% 100%;
-    --secondary-glow: 265 100% 80%;
+    /* #D3D3D3 - Light gray secondary */
+    --secondary: 0 0% 83%;
+    --secondary-foreground: 0 0% 10%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 70%;
-
-    --accent: 265 100% 62%;
+    /* #F96714 - Orange accent */
+    --accent: 22 94% 52%;
     --accent-foreground: 0 0% 100%;
+
+    --muted: 0 0% 90%;
+    --muted-foreground: 0 0% 45%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 15%;
-    --ring: 213 100% 50%;
+    --border: 0 0% 85%;
+    --input: 0 0% 95%;
+    --ring: 239 100% 30%;
 
-    /* LED-inspired gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(213 100% 50%), hsl(265 100% 62%));
-    --gradient-glow: linear-gradient(135deg, hsl(213 100% 50% / 0.8), hsl(265 100% 62% / 0.8));
-    --gradient-hero: linear-gradient(135deg, hsl(0 0% 4%), hsl(213 100% 8%), hsl(0 0% 4%));
+    /* Bragi-specific gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(239 100% 30%), hsl(22 94% 52%));
+    --gradient-secondary: linear-gradient(135deg, hsl(0 0% 83%), hsl(0 0% 90%));
+    --gradient-hero: linear-gradient(135deg, hsl(239 100% 30% / 0.95), hsl(239 100% 30% / 0.85));
 
-    /* LED glow effects */
-    --shadow-primary: 0 0 20px hsl(213 100% 50% / 0.5);
-    --shadow-secondary: 0 0 20px hsl(265 100% 62% / 0.5);
-    --shadow-intense: 0 0 40px hsl(213 100% 50% / 0.8), 0 0 80px hsl(265 100% 62% / 0.4);
+    /* Brand shadow effects */
+    --shadow-primary: 0 4px 20px hsl(239 100% 30% / 0.3);
+    --shadow-accent: 0 4px 20px hsl(22 94% 52% / 0.3);
+    --shadow-card: 0 2px 10px hsl(0 0% 0% / 0.1);
 
     --radius: 0.75rem;
 
@@ -120,21 +119,21 @@ All colors MUST be HSL.
 }
 
 @layer components {
-  /* LED glow animations */
+  /* Brand hover animations */
   @keyframes pulse-glow {
     0%, 100% { 
       box-shadow: var(--shadow-primary);
       transform: scale(1);
     }
     50% { 
-      box-shadow: var(--shadow-intense);
+      box-shadow: var(--shadow-accent);
       transform: scale(1.02);
     }
   }
 
   @keyframes float {
     0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
+    50% { transform: translateY(-10px); }
   }
 
   @keyframes glow-pulse {
@@ -142,54 +141,42 @@ All colors MUST be HSL.
     50% { opacity: 1; }
   }
 
-  /* Hero button with LED glow */
+  /* Hero CTA button */
   .btn-hero {
-    @apply relative px-8 py-4 bg-gradient-to-r from-primary to-secondary text-primary-foreground font-semibold rounded-lg overflow-hidden transition-all duration-300;
-    background: var(--gradient-primary);
-    box-shadow: var(--shadow-primary);
+    @apply relative px-8 py-4 bg-accent hover:bg-accent/90 text-accent-foreground font-run font-bold rounded-lg transition-all duration-300;
+    box-shadow: var(--shadow-accent);
   }
 
   .btn-hero:hover {
-    box-shadow: var(--shadow-intense);
-    transform: scale(1.05);
+    box-shadow: var(--shadow-accent);
+    transform: translateY(-2px);
   }
 
-  .btn-hero::before {
-    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
-    content: '';
-    background: var(--gradient-glow);
+  /* Secondary button */
+  .btn-secondary {
+    @apply relative px-6 py-3 bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white font-century font-bold rounded-lg transition-all duration-300;
   }
 
-  .btn-hero:hover::before {
-    @apply opacity-20;
+  /* Brand card effect */
+  .brand-card {
+    @apply relative bg-card border border-border rounded-lg p-6 transition-all duration-300;
+    box-shadow: var(--shadow-card);
   }
 
-  /* Glow card effect */
-  .glow-card {
-    @apply relative bg-card border border-border rounded-lg overflow-hidden;
-    transition: all 0.3s ease;
-  }
-
-  .glow-card::before {
-    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
-    content: '';
-    background: var(--gradient-glow);
-  }
-
-  .glow-card:hover::before {
-    @apply opacity-10;
-  }
-
-  .glow-card:hover {
+  .brand-card:hover {
     box-shadow: var(--shadow-primary);
     transform: translateY(-4px);
   }
 
-  /* LED strip animation */
-  .led-strip {
-    @apply w-full h-1 rounded-full;
-    background: var(--gradient-primary);
-    animation: glow-pulse 2s ease-in-out infinite;
+  /* Service card with accent highlight */
+  .service-card {
+    @apply relative bg-card border border-border rounded-lg p-6 transition-all duration-300 hover:border-accent/50;
+    box-shadow: var(--shadow-card);
+  }
+
+  .service-card:hover {
+    box-shadow: var(--shadow-primary);
+    transform: translateY(-2px);
   }
 
   /* Floating animation */
@@ -197,8 +184,8 @@ All colors MUST be HSL.
     animation: float 6s ease-in-out infinite;
   }
 
-  /* Pulse glow animation */
-  .pulse-glow {
+  /* Brand pulse animation */
+  .brand-pulse {
     animation: pulse-glow 3s ease-in-out infinite;
   }
 }
